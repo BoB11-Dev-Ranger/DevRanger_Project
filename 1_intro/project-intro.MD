@@ -40,6 +40,7 @@ _[출처:IT조선]_
 ![alt](https://i.imgur.com/Vbtok2V.png)
 
 _[출처:비즈조선일보]_
+
 ![alt](https://i.imgur.com/eC44dNn.png)
 
 _[출처:insights.stackoverflow]_
@@ -51,6 +52,7 @@ _[출처:insights.stackoverflow]_
 ![alt](https://i.imgur.com/nr8qfRi.png)
 
 _[출처:보안뉴스]_
+
 ![alt](https://i.imgur.com/b3I0oWR.png)
 
 _[출처:TechM]_
