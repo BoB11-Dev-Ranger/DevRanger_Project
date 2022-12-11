@@ -30,6 +30,7 @@
 #### 1.1.1. 개발자 수요
 
 ![alt](https://i.imgur.com/a1V7olL.png)
+
 _[출처:IT조선]_
 
 코로나 19 펜데믹 상황으로 인해 대부분의 기업의 수익이 감소함에 따라 고용 감축이 실행되는 상황 속에서도 비대면 상황에 큰 기여를 할 수 있는 개발자 고용에 대한 수요는 오히려 증가하는 모습을 볼 수 있었습니다.
@@ -37,8 +38,10 @@ _[출처:IT조선]_
 #### 1.1.2. 개발자 생태계 앱에 대한 점유율
 
 ![alt](https://i.imgur.com/Vbtok2V.png)
+
 _[출처:비즈조선일보]_
 ![alt](https://i.imgur.com/eC44dNn.png)
+
 _[출처:insights.stackoverflow]_
 
 대표적인 협업앱인 [노션](http://notion.es)의 경우는 2021년 ~ 2022년 사이에 한국 시장에서 점유율이 263% 까지 상승하는 모습을 볼 수 있었고, IDE(통합개발환경) 분야에서의 대표적인 앱인 Visual Studio Code 의 경우는 코로나 19가 시작된 2020 년 이후로 상승폭이 더 증가한 모습을 볼 수 있습니다.
@@ -46,9 +49,11 @@ _[출처:insights.stackoverflow]_
 #### 1.1.3. 발생할 수 있는 침투상황
 
 ![alt](https://i.imgur.com/nr8qfRi.png)
-_[출처: 보안뉴스]_
+
+_[출처:보안뉴스]_
 ![alt](https://i.imgur.com/b3I0oWR.png)
-_[출처: TechM]_
+
+_[출처:TechM]_
 
 ### 1.2. 연구 범위
 
