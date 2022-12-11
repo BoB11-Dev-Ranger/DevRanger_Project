@@ -42,7 +42,7 @@
 | JANDI              | 원격코드실행 1 | Windows, Mac        | 제보 진행중                                         |
 | JANDI              | 원격코드실행 2 | Windows, Mac        | 제보 진행중                                         |
 | Obsidian           | 로컬 파일 누출 | Windows, Mac, Linux | [CVE-2022-44791](https://cve.report/CVE-2022-44791) |
-| RunJS              | 원격코드실행   | Windows, Mac, Linux | 패치 완료                                           |
+| RunJS              | 원격코드실행   | Windows, Mac, Linux | 패치완료 완료                                       |
 | Beekeeper-Studio   | 원격코드실행   | Windows, Mac, Linux | [CVE-2022-43143](https://cve.report/CVE-2022-43143) |
 | Left               | 원격코드실행   | Windows, Mac, Linux | [CVE-2022-44110](https://cve.report/CVE-2022-44110) |
 | Left               | 원격코드실행   | Windows, Mac, Linux | 제보 진행중                                         |
