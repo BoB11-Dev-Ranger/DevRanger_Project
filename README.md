@@ -30,8 +30,8 @@
 
 ### 서론
 
-1. [연구배경 및 목표](./1_intro/project-intro.MD)
-2. [선행 연구](./1_intro/related-work.MD)
+1. [연구배경 및 목표](./1_intro/1_1_project_intro/README.md)
+2. [선행 연구](./1_intro/1_2_related_work/README.md)
 
 ### 본론
 
