@@ -39,13 +39,14 @@ Electron 프레임워크 기반으로 제작된 앱의 특징은 여러가지가
 
 
 정상적으로 unpack되는 asar파일의 hexdump는 아래와 같습니다.
-![](https://user-images.githubusercontent.com/112851717/206965418-ed0c2775-0c78-4fd8-9ba7-53c56e5b028a.png)
+<img src="https://user-images.githubusercontent.com/112851717/206965418-ed0c2775-0c78-4fd8-9ba7-53c56e5b028a.png" width=80%>
 
 
 asar unpacking을 방지한 asar파일의 hexdump는 아래와 같습니다.
-![](https://user-images.githubusercontent.com/112851717/206965411-3fb00030-e26d-4421-b521-b0e67830ef1f.png)
+<img src="https://user-images.githubusercontent.com/112851717/206965411-3fb00030-e26d-4421-b521-b0e67830ef1f.png" width=80%>
+
 위의 정상적인 asar파일과 달리 `{".codesign":{"size":-1000,"offset":"0"}`이 추가되어 있는 것을 볼 수 있습니다. 본 파일을 일반적인 방법으로 unpack하면 아래와 같은 에러가 발생합니다.
-![](https://user-images.githubusercontent.com/112851717/206966052-c5bb8d3c-bbc2-4389-a9d6-7cef5df4146c.png)
+<img src="https://user-images.githubusercontent.com/112851717/206966052-c5bb8d3c-bbc2-4389-a9d6-7cef5df4146c.png" width=80%>
 
 brute fource를 통해 `.codesign`의 `size` 값을 찾을 수 있습니다.
 
@@ -83,7 +84,7 @@ if __name__ == "__main__":
     for thread in threads:
         thread.join()
 ```
-![](https://user-images.githubusercontent.com/112851717/206973232-ae1fd5d9-ae09-41e5-88ff-b058c8a09962.png)
+<img src="https://user-images.githubusercontent.com/112851717/206973232-ae1fd5d9-ae09-41e5-88ff-b058c8a09962.png" width=80%>
 
 ### 1.2. Electron 보안옵션
 
