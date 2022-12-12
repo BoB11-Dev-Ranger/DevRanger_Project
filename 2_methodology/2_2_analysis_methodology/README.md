@@ -37,20 +37,22 @@ Electron 프레임워크 기반으로 제작된 앱의 특징은 여러가지가
 
 하지만, 저희가 분석한 앱들 중에는 아무래도 코드가 그대로 추출되는 것을 방지하기 위해 asar unpacking 을 방지하는 기법을 적용한 벤더도 존재하였습니다.
 
-
 정상적으로 unpack되는 asar파일의 hexdump는 아래와 같습니다.
+
 <img src="https://user-images.githubusercontent.com/112851717/206965418-ed0c2775-0c78-4fd8-9ba7-53c56e5b028a.png" width=80%>
 
-
 asar unpacking을 방지한 asar파일의 hexdump는 아래와 같습니다.
+
 <img src="https://user-images.githubusercontent.com/112851717/206965411-3fb00030-e26d-4421-b521-b0e67830ef1f.png" width=80%>
 
 위의 정상적인 asar파일과 달리 `{".codesign":{"size":-1000,"offset":"0"}`이 추가되어 있는 것을 볼 수 있습니다. 본 파일을 일반적인 방법으로 unpack하면 아래와 같은 에러가 발생합니다.
+
 <img src="https://user-images.githubusercontent.com/112851717/206966052-c5bb8d3c-bbc2-4389-a9d6-7cef5df4146c.png" width=80%>
 
 brute fource를 통해 `.codesign`의 `size` 값을 찾을 수 있습니다.
 
 brute fource를 통해 `.codesign size` 값을 찾은 후에 `app.asar.unpacked`이 있는 폴더에서 unpack을 하면 정상적으로 unpack한 결과를 얻을 수 있습니다.
+
 ```python
 # unpack_asar.py
 import os
@@ -84,9 +86,71 @@ if __name__ == "__main__":
     for thread in threads:
         thread.join()
 ```
+
 <img src="https://user-images.githubusercontent.com/112851717/206973232-ae1fd5d9-ae09-41e5-88ff-b058c8a09962.png" width=80%>
 
 ### 1.2. Electron 보안옵션
+
+아무 이상 없이 unpack 을 한 소스를 대상으로는 소스에 대한 난독화 또는 빌딩 여부에 상관 없이 Renderer process 에 대한 Electron 보안옵션을 체크할 수 있습니다.
+
+해당 보안 옵션이 중요한 이유는 보안옵션에 따라서 그 뒤에 진행해나갈 공격 방식이 천차만별로 달라지기 때문입니다.
+
+상세 보안 옵션은 [링크](https://www.electronjs.org/docs/latest/tutorial/security) 를 참고하시길 바랍니다.
+
+본 문서를 작성하는 2022년 12월 13일 기준으로 최신 Electron 버전은 20 버전으로 존재하는 대표적 보안옵션은 아래와 같습니다.
+
+| 종류                     | 기능 요약                                                                                                                                         |
+| ------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------- |
+| NodeIntegration          | Renderer Process 에서 Node.js API 를 사용할 수 있음                                                                                               |
+| ContextIsolation         | MainProcess 로직과 Renderer Process 로직을 논리적으로 분리함                                                                                      |
+| Sandbox                  | [Chrome Sandbox](https://chromium.googlesource.com/chromium/src/+/HEAD/docs/design/sandbox.md) 과 같이 Electron 앱과 OS 의 리소스를 서로 격리시킴 |
+| NodeIntegratinoSubFrames | top frame 은 node API 사용이 불가하더라도, iframe 에서는 node API 를 사용할 수 있게 허용할 수 있는 옵션                                           |
+
+해당 옵션을 분석하는 방식은 코드 분석으로 진행하여도 가능하오나, 아래 소스를 보시면 해당 보안 옵션은 [BrowserWindow 함수](https://www.electronjs.org/docs/latest/api/browser-window) 로 Renderer Process 객체를 생성하는 부분에서 사용된다는 **고정적 특징** 이 존재합니다. 
+
+```javascript
+// RendererProcess_Example.js
+_browser = new BrowserWindow({
+      webPreferences: {
+        nodeIntegration: true,
+        contextIsolation: false,
+        enableRemoteModule: true
+      }
+    });
+```
+
+그러므로 해당 부분을 트레이싱 하면 비교적 취약한 부분을 탐색하는데 용이합니다.
+
+하지만 저희 Dev Ranger 팀은 이러한 패턴을 파악하여 손쉽게 CodeQL 을 통해 취약 옵션이 적용되어있는 부분을 탐색할 수 있도록 쿼리를 제작하였습니다.
+
+아래는 수많은 보안 옵션 중, `nodeIntegration` 이 취약한 부분을 탐색하는 쿼리로 소스가 빌드되었거나 난독화 된 소스에서도 신속하고 정확한 스캐닝이 가능합니다.
+
+```javascript
+/**
+ * @kind problem
+ * @id js/selectNodeIntegration
+ * @name selectNodeIntegration
+ * @description 앱 내에서 NodeJS API 사용가능
+ * @problem.severity error
+ * @precision high
+ */
+
+import javascript
+
+//nodeIntegration: 0!
+predicate isVulnNodeIntegration(Property props, Label label, UnaryExpr unexpr){
+    // label 이 동일하고
+    label.getName()="nodeIntegration" and props.getAChild() = label 
+    and
+    // 속성이 취약한 Prop 이면 true
+    unexpr.toString()="!0" and props.getAChild()=unexpr
+}
+from Property props, Label label, UnaryExpr unexpr
+where isVulnNodeIntegration(props, label, unexpr)
+select props, "NodeIntegration is enabled"
+
+```
+
 
 ### 1.3. IPC 사용여부
 
