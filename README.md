@@ -35,10 +35,9 @@
 
 ### 본론
 
-1. [분석 과정](./2_methodology/2_1_analysis_process/README.md)
-2. [공격 벡터](./2_methodology/2_2_attack_vectors/README.md)
+1. [공격 벡터](./2_methodology/2_1_attack_vectors/README.md)
+2. [분석 방법론](./2_methodology/2_2_analysis_methodology/README.md)
 3. [예상 침투 시나리오](./2_methodology/2_3_scenario/README.md)
-4. [분석 방법론](./2_methodology/2_4_analysis_methodology/README.md)
 
 ### 결론
 
