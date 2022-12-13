@@ -202,6 +202,22 @@ function _onSettingsChange(event, data) {
 
 (nodeIntegration, **webpack_require** , nodeRequire 등등 서술 예정)
 
+`nodeIntegraion` 활성화가 되어있는 경우, node module 을 불러올 수 있는 함수인 `require` 함수의 존재는 취약점 분석에서 굉장히 크리티컬한 요소입니다.
+
+![](https://i.imgur.com/gSNU9Xq.png)
+
+![](https://i.imgur.com/5BXqSoZ.png)
+
+그렇기에 규모가 큰 벤더같은 경우에는 `require` 함수를 frame 별로 사용 가능한 영역을 나누거나, 난독화를 해놓는 등의 패턴을 보여줍니다.
+
+![](https://i.imgur.com/l9LBbYv.png)
+
+그러므로 분석하는 입장에서는 현재 window 즉, frame 에서 사용할 수 있는 함수를 파악하는 것이 중요합니다.
+
+Visual Studio Code 의 경우에는 사용자와의 상호작용에서 자유로운 top frame 에서만 `nodeRequire` 이라는 이름으로 `require` 함수를 대체하여 사용하는 모습을 보여주었습니다.
+
+![](https://i.imgur.com/1p8zuN0.png)
+
 ### 1.5. 딥링크 핸들러
 
 Electron 앱의 경우는 어떠한 OS나 플랫폼에도 구애받지 않기위한 크로스플랫폼이라는 특성을 갖고 있습니다.

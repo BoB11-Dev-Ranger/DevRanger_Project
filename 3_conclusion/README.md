@@ -33,19 +33,19 @@
 
 ### 3.1. 취약점 제보 결과
 
-| 벤더               | 취약점         | 적용 플랫폼         | 최종 결과                                           |
-| ------------------ | -------------- | ------------------- | --------------------------------------------------- |
-| Visual Studio Code | 원격코드실행   | Mac                 | [CVE-2022-44110](https://cve.report/CVE-2022-44110) |
-| Notion             | 원격코드실행 1 | Windows             | **버그바운티 $1850**                                |
-| Notion             | 원격코드실행 2 | Windows, Mac        | 제보 진행중                                         |
-| Notion             | 원격코드실행 3 | Windows, Mac        | 제보 진행중                                         |
-| JANDI              | 원격코드실행 1 | Windows, Mac        | **버그바운티 750,000 KRW**                          |
-| JANDI              | 원격코드실행 2 | Windows, Mac        | **버그바운티 750,000 KRW**                          |
-| Obsidian           | 로컬 파일 누출 | Windows, Mac, Linux | [CVE-2022-44791](https://cve.report/CVE-2022-44791) |
-| RunJS              | 원격코드실행   | Windows, Mac, Linux | **패치완료**                                        |
-| Beekeeper-Studio   | 원격코드실행   | Windows, Mac, Linux | [CVE-2022-43143](https://cve.report/CVE-2022-43143) |
-| Left               | 원격코드실행 1 | Windows, Mac, Linux | [CVE-2022-44110](https://cve.report/CVE-2022-44110) |
-| Left               | 원격코드실행 2 | Windows, Mac, Linux | 제보 진행중                                         |
-| Mermaid            | 민감정보누출   | Windows, Mac, Linux | 제보 진행중                                         |
-| Microsoft Teams    | XSS            | Windows, Mac        | 제보 진행중                                         |
-| Visual Studio Code | XSS            | Windows, Mac, Linux | 제보 진행중                                         |
+| 벤더               | 취약점                    | 적용 플랫폼         | 최종 결과                                           |
+| ------------------ | ------------------------- | ------------------- | --------------------------------------------------- |
+| Visual Studio Code | 원격코드실행              | Mac                 | [CVE-2022-44110](https://cve.report/CVE-2022-44110) |
+| Notion             | 원격코드실행 1            | Windows             | **버그바운티 ≈$2,000**                              |
+| Notion             | 원격코드실행 2            | Windows, Mac        | 제보 진행중                                         |
+| Notion             | CSRF를 통한 민감정보 누출 | Windows, Mac        | 제보 진행중                                         |
+| JANDI              | 원격코드실행 1            | Windows, Mac        | **버그바운티 ≈$1,000**                              |
+| JANDI              | 원격코드실행 2            | Windows, Mac        | **버그바운티 ≈$1,000**                              |
+| Obsidian           | 로컬 파일 누출            | Windows, Mac, Linux | [CVE-2022-44791](https://cve.report/CVE-2022-44791) |
+| RunJS              | 원격코드실행              | Windows, Mac, Linux | **패치완료**                                        |
+| Beekeeper-Studio   | 원격코드실행              | Windows, Mac, Linux | [CVE-2022-43143](https://cve.report/CVE-2022-43143) |
+| Left               | 원격코드실행 1            | Windows, Mac, Linux | [CVE-2022-44110](https://cve.report/CVE-2022-44110) |
+| Left               | 원격코드실행 2            | Windows, Mac, Linux | 제보 진행중                                         |
+| Mermaid            | 민감정보누출              | Windows, Mac, Linux | 제보 진행중                                         |
+| Microsoft Teams    | XSS                       | Windows, Mac        | 제보 진행중                                         |
+| Visual Studio Code | XSS                       | Windows, Mac, Linux | 제보 진행중                                         |
