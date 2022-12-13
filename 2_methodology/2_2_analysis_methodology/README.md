@@ -5,7 +5,7 @@
   - [1.1. asar 코드 언패킹](#11-asar-코드-언패킹)
   - [1.2. Electron 보안옵션](#12-Electron-보안옵션)
   - [1.3. IPC 사용여부](#13-IPC-사용여부)
-  - [1.4. iframe 옵션](#14-iframe-옵션)
+  - [1.4. `require` 함수의 사용가능 여부](#14-require-함수의-사용가능-여부)
   - [1.5. 딥링크 핸들러](#15-딥링크-핸들러)
 
 - [2. Chrome Exploit](#2-Chrome-Exploit)
@@ -194,7 +194,7 @@ function _onSettingsChange(event, data) {
 }
 ```
 
-### 1.4. iframe 옵션
+### 1.4. `require` 함수의 사용가능 여부
 
 ### 1.5. 딥링크 핸들러
 
@@ -202,7 +202,49 @@ Electron 앱의 경우는 어떠한 OS나 플랫폼에도 구애받지 않기위
 
 그러한 크로스 플랫폼을 가능하게 해주는 기능 중 하나가 [딥링크 기능](https://www.electronjs.org/docs/latest/tutorial/launch-app-from-url-in-another-app) 입니다.
 
-예를 들면,
+예를 들면, skype 앱의 경우에는 딥링크를 아래와 같이 활용하고 있습니다.
+
+`skype://<username>?<action>`
+
+이와 같은 URL 형식을 전달하면, skype 앱을 굳이 클릭해서 열지않아도 해당 user 에 대해 원하는 action 을 하도록 유도할 수 있습니다. `skype://devranger?call` 이라는 URL 을 주면 통화하는 화면으로 바로 넘어가도록 유도할 수 있는 것입니다.
+
+이러한 딥링크는 편리성이라는 장점을 갖고있는 반면에 Zero Click 취약점을 유도할 수 있는 좋은 도구가 되기도 합니다.
+
+예를 들면, 현재 패치된 [RunJS](https://runjs.app/) 의 경우 딥링크 핸들러가 패치되기 이전에 아래와 같은 딥링크 기능이 존재했습니다.
+
+`runjs://<something>?script=<javascript code encoded with base64>`
+
+위 URL 에서 보이듯이 script 인자에 base64 로 인코딩한 자바스크립트 코드를 전달해주면, RunJS 앱에서 해당 javascript 코드를 바로 실행시킵니다.
+
+해당 기능은 RunJS 측에서 공식적으로 공개한 기능은 명백하게 아니지만, `<appname>://` 으로 시작하는 URL 을 파싱하는 **딥링크 핸들러** 기능이 어딘가에는 분명 정의되어있다는 Electron 앱의 특성 및 패턴을 파악하고 분석을 하여 발굴 해낼 수 있었던 취약점입니다.
+
+이러한 딥링크 핸들러는 정의 패턴이 앱마다 굉장히 천차만별이고, 정의 위치 또한 일정하지 않기 때문에 CodeQL 로 핸들러 위치를 신속히 파악하는 것이 굉장히 중요합니다. 아래는 그에 대한 예시 쿼리문입니다.
+
+```javascript
+  /**
+ * @name Empty block
+ * @kind problem
+ * @problem.severity warning
+ * @id javascript/example/empty-block
+ */
+import javascript
+
+from DataFlow::MethodCallNode startFunc
+, string arg1StartFunc
+, ExprStmt expr
+, string scheme
+where
+    startFunc.getMethodName() = "startsWith"
+    and arg1StartFunc = startFunc.getArgument(0).getStringValue()
+    and arg1StartFunc.regexpMatch("^.*://.*$")
+
+    and scheme = expr.getAToken().toString()
+    and not scheme.regexpMatch("^.*"+arg1StartFunc+".*$")
+    and scheme.regexpMatch("^.*://.*$")
+
+select startFunc.getArgument(0), "to" , scheme
+```
+
 ## 2. Chrome Exploit
 
 ## 3. 서드파티모듈
