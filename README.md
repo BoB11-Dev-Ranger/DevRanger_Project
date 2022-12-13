@@ -20,11 +20,11 @@
 
 > KITRI Best of the Best 11 기 취약점 분석 트랙 Dev Ranger 팀
 
-- 멘토: 강인욱
+- 멘토: [강인욱](https://github.com/hkkiw0823/hkkiw0823.github.io)
 
-- PL(Project Leader): 김지섭
+- PL(Project Leader): [김지섭](https://github.com/jskimm)
 
-- 팀원: 이승형(PM), 안준서, 민제민, 안인서, 김진우
+- 팀원: [이승형(PM)](https://github.com/goseungduk), [안준서](https://github.com/aht7525), [민제민](https://github.com/AliceLacie), [안인서](https://github.com/AIS0127), [김진우](https://github.com/kimjw0427)
 
 ---
 
