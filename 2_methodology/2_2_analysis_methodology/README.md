@@ -2,10 +2,11 @@
 
 - [1. 코드 탐색](#1-코드-탐색)
 
-  - [1.1. Electron 보안옵션](#11-Electron-보안옵션)
-  - [1.2. IPC 사용여부](#12-IPC-사용여부)
-  - [1.3. iframe 옵션](#13-iframe-옵션)
-  - [1.4. 딥링크 핸들러](#14-딥링크-핸들러)
+  - [1.1. asar 코드 언패킹](#11-asar-코드-언패킹)
+  - [1.2. Electron 보안옵션](#12-Electron-보안옵션)
+  - [1.3. IPC 사용여부](#13-IPC-사용여부)
+  - [1.4. iframe 옵션](#14-iframe-옵션)
+  - [1.5. 딥링크 핸들러](#15-딥링크-핸들러)
 
 - [2. Chrome Exploit](#2-Chrome-Exploit)
 
@@ -106,17 +107,17 @@ if __name__ == "__main__":
 | Sandbox                  | [Chrome Sandbox](https://chromium.googlesource.com/chromium/src/+/HEAD/docs/design/sandbox.md) 과 같이 Electron 앱과 OS 의 리소스를 서로 격리시킴 |
 | NodeIntegratinoSubFrames | top frame 은 node API 사용이 불가하더라도, iframe 에서는 node API 를 사용할 수 있게 허용할 수 있는 옵션                                           |
 
-해당 옵션을 분석하는 방식은 코드 분석으로 진행하여도 가능하오나, 아래 소스를 보시면 해당 보안 옵션은 [BrowserWindow 함수](https://www.electronjs.org/docs/latest/api/browser-window) 로 Renderer Process 객체를 생성하는 부분에서 사용된다는 **고정적 특징** 이 존재합니다. 
+해당 옵션을 분석하는 방식은 코드 분석으로 진행하여도 가능하오나, 아래 소스를 보시면 해당 보안 옵션은 [BrowserWindow 함수](https://www.electronjs.org/docs/latest/api/browser-window) 로 Renderer Process 객체를 생성하는 부분에서 사용된다는 **고정적 특징** 이 존재합니다.
 
 ```javascript
 // RendererProcess_Example.js
 _browser = new BrowserWindow({
-      webPreferences: {
-        nodeIntegration: true,
-        contextIsolation: false,
-        enableRemoteModule: true
-      }
-    });
+  webPreferences: {
+    nodeIntegration: true,
+    contextIsolation: false,
+    enableRemoteModule: true,
+  },
+});
 ```
 
 그러므로 해당 부분을 트레이싱 하면 비교적 취약한 부분을 탐색하는데 용이합니다.
@@ -140,7 +141,7 @@ import javascript
 //nodeIntegration: 0!
 predicate isVulnNodeIntegration(Property props, Label label, UnaryExpr unexpr){
     // label 이 동일하고
-    label.getName()="nodeIntegration" and props.getAChild() = label 
+    label.getName()="nodeIntegration" and props.getAChild() = label
     and
     // 속성이 취약한 Prop 이면 true
     unexpr.toString()="!0" and props.getAChild()=unexpr
@@ -151,13 +152,57 @@ select props, "NodeIntegration is enabled"
 
 ```
 
-
 ### 1.3. IPC 사용여부
+
+[IPC](https://www.electronjs.org/docs/latest/api/ipc-main) 란 Electron 에 존재하는 Main Process 와 Renderer Process 사이에서 검증된 통신을 할 수 있도록 개발자 측에서 미리 정의해둔 함수 및 모듈입니다.
+
+![](https://i.imgur.com/CbkbIfD.png)
+
+위 사진은 IPC 가 동작하는 간략한 예시 입니다. 만약 Renderer 측에서 알림창을 그려주길 원하면, 앱은 Main Process 에 미리 정의되어있는 알림창 띄우기 함수를 사용해야만합니다. 이것이 개발자가 보안을 위해 적용한 일종의 룰이라고 생각하면 됩니다.
+
+이는 `contextIsolation` 옵션이 활성화 되어있을 때, Main Process 와 통신할 수 있는 유일한 소통창구가 되는데 만약 이러한 함수 정의에 취약점이 존재한다면 `contextIsolation` 보안옵션이 활성화되어 안전한 상황에서도 XSS 및 RCE 같은 침투 상황이 발생할 수 있는 것입니다.
+
+이러한 IPC 는 아래와 같이 `ipcMain` 및 `ipcRenderer` 모듈을 import 또는 require 하는 부분에 정의되어있는 경우가 많습니다.
+
+```javascript
+import { ipcMain } from "electron";
+// or
+import { ipcRenderer } from "electron";
+```
+
+아래는 Dev Ranger 팀의 취약점 연구 결과로 발견한 취약하게 정의된 IPC 함수의 예시입니다.
+
+본 함수는 사용자의 개인 설정을 조작할 수 있는 IPC 함수로, 공격 페이로드를 통해 해당 `settings-change` 함수를 트리거 시키면 공격자 마음대로 사용자의 설정을 조작할 수 있는 것입니다.
+
+```javascript
+ipcMain.on("settings-change", _onSettingsChange);
+function _onSettingsChange(event, data) {
+  logger.warn(`${FILE_NAME}_onSettingsChange()`, data);
+  const settingsBrowser = _browser.settingsBrowser;
+  if (settingsBrowser) {
+    if (!data.useDirectDownload) {
+      data.downloadPath = "";
+    }
+    if (data.autoStart) {
+      _setting.enableAutoLaunch();
+    } else if (!data.autoStart) {
+      _setting.disableAutoLaunch();
+    }
+    _setting.saveSetting(data);
+    settingsBrowser.webContents.send("saved-success");
+  }
+}
+```
 
 ### 1.4. iframe 옵션
 
 ### 1.5. 딥링크 핸들러
 
+Electron 앱의 경우는 어떠한 OS나 플랫폼에도 구애받지 않기위한 크로스플랫폼이라는 특성을 갖고 있습니다.
+
+그러한 크로스 플랫폼을 가능하게 해주는 기능 중 하나가 [딥링크 기능](https://www.electronjs.org/docs/latest/tutorial/launch-app-from-url-in-another-app) 입니다.
+
+예를 들면,
 ## 2. Chrome Exploit
 
 ## 3. 서드파티모듈
