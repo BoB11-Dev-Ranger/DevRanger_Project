@@ -32,15 +32,15 @@
 
 ### 서론
 
-1. [연구배경 및 목표](./1_intro/1_1_project_intro/README.md)
-2. [선행 연구](./1_intro/1_2_related_work/README.md)
+- [연구배경 및 목표](./1_intro/1_1_project_intro/README.md)
+- [선행 연구](./1_intro/1_2_related_work/README.md)
 
 ### 본론
 
-1. [공격 벡터](./2_methodology/2_1_attack_vectors/README.md)
-2. [분석 방법론](./2_methodology/2_2_analysis_methodology/README.md)
-3. [예상 침투 시나리오](./2_methodology/2_3_scenario/README.md)
+- [공격 벡터](./2_methodology/2_1_attack_vectors/README.md)
+- [분석 방법론](./2_methodology/2_2_analysis_methodology/README.md)
+- [예상 침투 시나리오](./2_methodology/2_3_scenario/README.md)
 
 ### 결론
 
-1. [프로젝트 성과](./3_conclusion/README.md)
+- [프로젝트 성과](./3_conclusion/README.md)
