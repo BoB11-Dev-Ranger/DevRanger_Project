@@ -10,6 +10,10 @@
 
 - [2. Chrome Exploit](#2-Chrome-Exploit)
 
+  - [2.1. 필요조건](#21-필요조건)
+  - [2.2. 환경구축](#22-환경구축)
+  - [2.3. 공격 및 분석방식](#23-공격-및-분석방식)
+
 - [3. 서드파티모듈](#3-서드파티모듈)
 
 - [4. CodeQL](#3-CodeQL)
@@ -196,6 +200,8 @@ function _onSettingsChange(event, data) {
 
 ### 1.4. `require` 함수의 사용가능 여부
 
+(nodeIntegration, **webpack_require** , nodeRequire 등등 서술 예정)
+
 ### 1.5. 딥링크 핸들러
 
 Electron 앱의 경우는 어떠한 OS나 플랫폼에도 구애받지 않기위한 크로스플랫폼이라는 특성을 갖고 있습니다.
@@ -246,6 +252,41 @@ select startFunc.getArgument(0), "to" , scheme
 ```
 
 ## 2. Chrome Exploit
+
+Electron 보안 옵션 중, `nodeIntegration` 이 비활성화 되어있어서 node API 를 사용할 수 없으며, `sandbox` 또한 걸려있을 경우 위에 서술한 분석방법은 대부분은 효용이 없는 방법이 될 것입니다.
+
+그러나 이런 경우에 앱이 낮은 버전의 Electron 프레임워크를 사용하여, 그에 종속되는 Chrome 엔진 버전 또한 낮을 경우 기존에 공개된 1-day Chrome Exploitation 을 이용하거나 개량하여 Exploit 이 가능할 수 있습니다.
+
+### 2.1. 필요조건
+
+우선 현재 Exploit 하고자하는 Electron 내의 Chrome 엔진 버전에 대한 취약점이 존재해야합니다.
+해당 취약점에 대해서는 직접 디버깅하거나 퍼징하여 찾거나, 기존에 존재하는 Chrome Exploitation 또는 [Chromium Bug](https://bugs.chromium.org/p/chromium/issues/list) 를 개량하는 방식 등이 존재합니다.
+
+각 OS 별 Electron 디버깅 가능환경은 다음과 같습니다.
+
+| OS      | Debugger                                                                                              |
+| ------- | ----------------------------------------------------------------------------------------------------- |
+| Windows | [windbg](https://learn.microsoft.com/ko-kr/windows-hardware/drivers/debugger/debugger-download-tools) |
+| Linux   | [gdb](https://www.sourceware.org/gdb/)                                                                |
+| Mac     | [lldb](https://lldb.llvm.org/)                                                                        |
+
+### 2.2. 환경구축
+
+분석을 하기위한 환경 구축은 다음과 같습니다.
+
+우선 버전파악에 초점을 맞추어야합니다. 각 앱의 Electron 버전과 Chrome 엔진 버전은 앱의 `개발자도구 - Network` 탭에 들어가면, 앱이 통신하면서 header 로 전달하는 **User-Agent** 를 통해 파악할 수 있습니다.
+
+<img src="https://i.imgur.com/MeBdWml.png" alt="" style="width:70%"></img>
+
+![](https://i.imgur.com/e29ksUb.png)
+
+버전 확인에 성공하였다면, 이제 그것에 맞는 [디버깅 심볼](https://github.com/electron/electron/releases) 을 가져오면 분석 준비가 완료됩니다.
+
+<img src="https://i.imgur.com/qEYUOIE.png" style="width:40%"></img>
+
+### 2.3. 공격 및 분석방식
+
+Chrome Exploitation 을 이용한 공격 루트에는 크게 두 가지가 존재합니다.
 
 ## 3. 서드파티모듈
 
