@@ -286,7 +286,33 @@ Electron 보안 옵션 중, `nodeIntegration` 이 비활성화 되어있어서 n
 
 ### 2.3. 공격 및 분석방식
 
-Chrome Exploitation 을 이용한 공격 루트에는 크게 두 가지가 존재합니다.
+Chrome Exploitation 을 이용한 공격 루트에는 [1.2.](#12-electron-보안옵션)에서 설명한 옵션들이 다 활성화되어있다는 가정하에, `Sandbox` 옵션에 따라 크게 두 가지로 구분할 수 있습니다.
+
+#### 2.3.1. `Sandbox` 보안옵션이 활성화 되어있을 때
+
+`Sandbox` 옵션이 활성화 되어있는 경우, 앱 내에서 보안 옵션을 강제로 조작하여 취약점 트리거로 연계할 수 있습니다.
+
+예를 들면, 아래와 같이 Renderer Process 에 `ContextIsolation` 과 `Sandbox` 옵션이 걸려있을 경우, 해당 프로세스는 **Main Process** 와 **Node API** 에 접근이 불가합니다.
+
+![](https://i.imgur.com/lZSDEPg.png)
+
+이 때, 해당 앱에 존재하는 Chrome 취약점을 이용하여 Exploit 을 진행하면, 아래와 같이 `ContextIsolation` 을 비활성화 하고, `NodeIntegration` 옵션을 강제 활성화 하여 **Main Process** 및 **Node API** 를 연결 시킬 수 있습니다.
+
+![](https://i.imgur.com/bqNFdVk.png)
+
+이러한 결과를 낼 수 있도록 Dev Ranger 팀이 사용한 방법 중 하나는 아래와 같습니다.
+
+![](https://i.imgur.com/soz8108.png)
+
+앱에 존재하는 `window` 객체의 주소를 leak 할 수 있는 경우(어떻게?), 디버깅을 통해 각 보안옵션에 대한 offset 을 구해낼 수 있습니다. 그 후에는 offset 을 이용하여 옵션들을 조작하면 성공적으로 Exploit 을 진행할 수 있습니다.
+
+단, Electron 버전 별로 offset 이 굉장히 달라지기 때문에 [2.2. 환경구축](#22-환경구축) 의 환경을 기반으로한 디버깅이 필수적입니다.
+
+그리고 보안옵션 중에서도 `ContextIsolation` 을 비활성화 시키는 경우에는 [1. 코드 분석](#1-코드-탐색) 과 동반하여 **Prototype Pollution** 공격 또한 가능함을 발견할 수 있었습니다.
+
+#### 2.3.2. `Sandbox` 보안옵션이 비활성화 되어있을 때
+
+(wasm)?
 
 ## 3. 서드파티모듈
 
