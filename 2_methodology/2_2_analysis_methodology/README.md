@@ -304,7 +304,7 @@ Chrome Exploitation 을 이용한 공격 루트에는 [1.2.](#12-electron-보안
 
 ![](https://i.imgur.com/soz8108.png)
 
-앱에 존재하는 `window` 객체의 주소를 leak 할 수 있는 경우(어떻게?), 디버깅을 통해 각 보안옵션에 대한 offset 을 구해낼 수 있습니다. 그 후에는 offset 을 이용하여 옵션들을 조작하면 성공적으로 Exploit 을 진행할 수 있습니다.
+Chrome Exploitation 을 통해 **Fake Object** 를 생성하여 앱에 존재하는 `window` 객체의 주소를 leak 할 수 있는 경우, 디버깅을 통해 각 보안옵션에 대한 offset 을 구해낼 수 있습니다. 그 후에는 offset 을 이용하여 옵션들을 조작하면 성공적으로 Exploit 을 진행할 수 있습니다.
 
 단, Electron 버전 별로 offset 이 굉장히 달라지기 때문에 [2.2. 환경구축](#22-환경구축) 의 환경을 기반으로한 디버깅이 필수적입니다.
 
@@ -312,7 +312,13 @@ Chrome Exploitation 을 이용한 공격 루트에는 [1.2.](#12-electron-보안
 
 #### 2.3.2. `Sandbox` 보안옵션이 비활성화 되어있을 때
 
-(wasm)?
+`Sandbox` 옵션이 비활성화 되어있는 경우에는 OS 의 리소스를 자유롭게 사용가능하다는 점에 의거하여, 메모리에 쉘코드를 쓰는 쪽으로 Exploit 을 진행합니다. 이는 `Sandbox` 옵션이 활성화되었을 때, 일일히 offset 을 알아내서 Exploit 하는 것보다 조금 더 심플하다는 장점이 있습니다.
+
+Dev Ranger 팀의 경우에는 V8 에 자체 내장되어있는 [WASM](https://chromium.googlesource.com/v8/v8/+/refs/heads/main/src/wasm/wasm-objects.h) 객체를 할당 받는 접근을 하였습니다. WASM 객체를 할당받게 되면 해당 메모리 영역은 웹어셈을 읽고,쓰고,실행하기 위해 **Read/Write/Execute** 권한을 갖게 됩니다.
+
+저희는 이러한 메모리 영역에 쉘코드를 입혀서 Remote Code Execution 을 트리거하는 방식을 사용하였습니다.
+
+추가적인 연구결과로는 V8 프로세스 메모리에 존재하는 일반 함수의 코드를 덮어씌워도 같은 취약점을 트리거할 수 있다는 결론을 낼 수 있었습니다.
 
 ## 3. 서드파티모듈
 
