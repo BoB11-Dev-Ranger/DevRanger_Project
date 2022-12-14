@@ -1,8 +1,13 @@
 # 공격 벡터
-
+- [Electron application 구조](#electron-application-구조)
+    - [Electron Security Option](#electron-security-option)
+    - [Electron Structure Diagram](#electron-structure-diagram)
+- [STRIDE 위협 모델링](#stride-위협-모델링)
+- [Attack Tree](#attack-tree)
 ---
 
 (위협 모델링 및 공격벡터 산정 등의 과정 기재 예정)
+
 ## Electron application 구조
 Electron은 크게 Main Process와 Renderer Process가 존재합니다.
 
@@ -31,3 +36,41 @@ Electron에는 크로미움의 sandbox 옵션과 같은 여러 보안 옵션이 
 ### Electron Structure Diagram
 Electron의 동작 구조를 다이어그램으로 정리하면 아래와 같습니다.
 <img src="https://user-images.githubusercontent.com/66944342/207488500-2a0618b8-5f0d-4af4-bf43-3019ccd65555.png" width=80%>
+
+다이어그램을 통해 옵션에 따른 Main Process와 Renderer Process의 상호작용을 한눈에 볼 수 있습니다. 
+
+## STRIDE 위협 모델링
+| 위협 종류                 | 공격으로 인한 결과  |     
+| ------------------       | ------------------------- | 
+Spoofing                   |     거짓된 권한을 이용하여 시스템의 접근 권한을 획득
+Tampering                  |     불법적으로 데이터를 수정
+Repudiation                |     사용자가 수행한 행동에 대한 부인
+Information Disclosure     |     유출되서는 안되는 개인 정보 유출
+Denial of Service          |     시스템 또는 애플리케이션이 정상적으로 수행되지 않도록 함
+Elevation of Privilege     |     제한된 권한을 가진 사용자가 다른 사용자의 권한을 습득
+
+| Name |Additional Threat Derivation  | STRIDE  |     
+| ---- | -------------------------    |  :----: |
+Main Process |  IPC내에서 보내는 데이터에 대한 부족한 필터링으로 인한 Cross-site Script 발생하여 NodeJS 호출후 Code Execution 가능 | |
+| | 부족한 필터링으로 인한 OpenExternal함수에 file 스킴 사용가능하여 특정파일 동작  | S, E |
+| | IPC내에서 보내는 데이터에 대한 부족한 필터링으로 인한 Cross-site Script 발생하여 NodeJS 호출후 Code Execution 가능  | S, E  | 
+Renderer Process | 필터링 부족으로 인한 Cross-site Script 발생  | T |
+|| ContextIsolation 옵션이 꺼져있을때 Prototype Pollution으로 인한 인증 우회  | S, T, E |
+|| ContextIsolation 옵션이 꺼져있고 nodeAPI를 불러오는 부분이 중간에 포함되어 있을때 `__Webpack_require__` 노출하여 Code Execution 발생  | T, I, E |
+|| NodeIntegration 혹은 NodeIntegrationSubFrame이 켜져있고 Require를 지우지않았을 경우 Require를 통한 NodeJS를 호출하여 Code Execution 발생  | E |
+|| Electron의 낮은 버전으로 인하여 낮은 Chromium Version 사용시 Chromium취약점 발생  | E |
+||Chrome Security Option의 설정이 부족할 경우 취약점 발생(Ex: SOP, Allow Local Resource) | I | 
+||XSS가 발생하는 페이지에서 IPC를 호출하는 함수에 접근가능할 경우 의도치 않은 동작 발생 | T, D |
+||유저 정보에 대한 암호화 부재로 인한 유저 정보노출 | R, I |
+App Backend | 웹 API 호출시에 교차검증 부재로 인한 API 오남용 | E |
+|| DeepLink로 인한 로직버그 | S, D, E |
+NodeJS API  | Electron의 낮은 버전으로 인하여 낮은 버전의 NodeJS 사용시 취약점 발생 | E | 
+|| 낮은 NodeJS Module을 설치하여 사용할 경우 취약점 발생 | E |
+
+## Attack Tree
+위의 STRIDE 위협 모델링을 통해 정리한 위협들을 공격 백터로 분류하여 최종적인 Attack Tree를 그리면 아래와 같습니다.
+<img src="https://user-images.githubusercontent.com/66944342/207555988-78214490-fb2c-4b2c-a3ec-54b15fabc7c3.png" width=80%>
+
+Root 노드를 Electron Application Exploit으로 지정하고 Root 노드를 이루는 가장 큰 공격 백터 두가지를 `Electron Process`와 이와 통신하여 여러 데이터를 서버에서 처리하는 `Web Backend Server`로 나눴습니다.
+
+그리고 Exploit을 성공시키기 위해서 가장 먼저 필요한 조건들인 XSS등을 나열하고 이에 따라 계속 노드를 나누어 결과적으로 마지막 노드에 도달했을시에 RCE, Information Leak등의 어떤 공격 결과를 얻을 수 있는지 표현했습니다.
