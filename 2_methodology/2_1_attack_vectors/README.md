@@ -30,4 +30,4 @@ Electron에는 크로미움의 sandbox 옵션과 같은 여러 보안 옵션이 
 
 ### Electron Structure Diagram
 Electron의 동작 구조를 다이어그램으로 정리하면 아래와 같습니다.
-![Electron Works Structure](https://user-images.githubusercontent.com/66944342/207488500-2a0618b8-5f0d-4af4-bf43-3019ccd65555.png)
+<img src="https://user-images.githubusercontent.com/66944342/207488500-2a0618b8-5f0d-4af4-bf43-3019ccd65555.png" width=80%>
