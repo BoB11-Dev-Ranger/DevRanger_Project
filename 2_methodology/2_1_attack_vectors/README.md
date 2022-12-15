@@ -80,6 +80,7 @@ NodeJS API  | Electron의 낮은 버전으로 인하여 낮은 버전의 NodeJS 
 ## Attack Tree
 
 위의 STRIDE 위협 모델링을 통해 정리한 위협들을 공격 백터로 분류하여 최종적인 Attack Tree를 그리면 아래와 같습니다.
+
 <img src="https://user-images.githubusercontent.com/66944342/207555988-78214490-fb2c-4b2c-a3ec-54b15fabc7c3.png" width=80%>
 
 Root 노드를 Electron Application Exploit으로 지정하고 Root 노드를 이루는 가장 큰 공격 백터 두가지를 `Electron Process`와 이와 통신하여 여러 데이터를 서버에서 처리하는 `Web Backend Server`로 나눴습니다.
