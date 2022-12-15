@@ -6,8 +6,6 @@
 - [Attack Tree](#attack-tree)
 ---
 
-(위협 모델링 및 공격벡터 산정 등의 과정 기재 예정)
-
 ## Electron application 구조
 Electron은 크게 Main Process와 Renderer Process가 존재합니다.
 
