@@ -38,7 +38,7 @@ Electron에는 크로미움의 sandbox 옵션과 같은 여러 보안 옵션이 
 
 Electron은 다음과 같은 과정을 거쳐서 작동합니다.
 1. 메인프로세스에서 각 개발자가 설정한 BrowserWindows에 설정한 Option에 맞춰 렌더러 프로세스를 시작합니다.
-2. 렌더러 프로세스에서는 IPC를 통해 메인프로세스와 정보를 가져오고 Chromium을 통하여 사용자에게 보여지는 Renderer를 구성합니다.
+2. 렌더러 프로세스에서는 IPC를 통해 메인프로세스와 정보를 가져오고 Chromium을 통하여 사용자에게 보이는 Renderer를 구성합니다.
 4. 사용자와 렌더러는 계속해서 상호작용을 하고 렌더러 프로세스는 계속해서 데이터를 IPC를 통하여 가져오거나 Web API를 통하여 외부에서 정보를 가져옵니다.
 5. 이때 메인프로세스는 렌더러 프로세스에서 요청한 정보를 컴퓨터 내부의 자원을 가져와야 하는 경우도 있습니다. 이때 NodeAPI를 사용하여 컴퓨터 자원을 가져옵니다.
 
@@ -49,6 +49,9 @@ Electron의 위의 동작을 다이어그램으로 정리하면 아래와 같습
 다이어그램을 통해 옵션에 따른 Main Process와 Renderer Process의 상호작용을 한눈에 볼 수 있습니다. 
 
 ## STRIDE 위협 모델링
+
+저희는 Electron에서 공격 벡터를 MainProcess, Renderer Process, Web Backend부분으로 나누어 취약점이 발생할 수 있는 부분을 다다음 표에 적혀있는 것처럼 정리하였습니다.
+STRIDE는 다음과 같습니다.
 
 | 위협 종류                 | 공격으로 인한 결과  |     
 | ------------------       | ------------------------- | 
@@ -74,8 +77,6 @@ Renderer Process | 필터링 부족으로 인한 Cross-site Script 발생  | T |
 ||유저 정보에 대한 암호화 부재로 인한 유저 정보노출 | R, I |
 App Backend | 웹 API 호출시에 교차검증 부재로 인한 API 오남용 | E |
 || DeepLink로 인한 로직버그 | S, D, E |
-NodeJS API  | Electron의 낮은 버전으로 인하여 낮은 버전의 NodeJS 사용시 취약점 발생 | E | 
-|| 낮은 NodeJS Module을 설치하여 사용할 경우 취약점 발생 | E |
 
 ## Attack Tree
 
