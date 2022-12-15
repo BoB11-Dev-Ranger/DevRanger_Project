@@ -19,6 +19,8 @@
 
 ![alt](https://i.imgur.com/79ZPH0U.png)
 
+다음과 같은 체크리스트를 거칠경우 대부분의 취약점은 방지가 가능합니다.
+
 ## 2. CodeQL 자동 코드 검사 솔루션
 
 발굴한 취약점들을 토대로 제작한 CodeQL 쿼리를 기반으로 하여 보안에 관하여 지식이 전무한 개발자들도 본인의 코드를 손쉽게 체크할 수 있도록 [CodeQL 자동 코드 분석 솔루션](https://github.com/BoB11-Dev-Ranger/CodeQL-Service) 을 제작하여 배포하였습니다.
