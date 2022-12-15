@@ -7,6 +7,7 @@
 ---
 
 ## Electron application 구조
+
 Electron은 크게 Main Process와 Renderer Process가 존재합니다.
 
 `Main Process`는 하나의 application에 하나만 존재할 수 있으며 nodejs API를 호출할 수 있습니다. 
@@ -14,7 +15,9 @@ Electron은 크게 Main Process와 Renderer Process가 존재합니다.
 `Renderer Process`는 Chromium을 기반으로 동작하고 하나의 application에 여러 Renderer Process가 존재할 수 있습니다. Renderer Process는 nodejs API와 직접적으로 호출할 수 없고 Main Process에 IPC 요청을 통해서만 호출할 수 있습니다.
 
 ### Electron Security Option
+
 Electron에는 크로미움의 sandbox 옵션과 같은 여러 보안 옵션이 존재합니다. 이는 기본적으로 활성화되어 있으며 개발자가 필요에 따라 비활성화 시킬 수 있습니다.
+
 1. nodeIntegration
     - nodeIntegration이 활성화되어 있을 경우 Renderer Process가 nodejs API에 직접적으로 접근할 수 있습니다. 
     - Electron 5.0 이후로 기본적으로 비활성화되어 있습니다.
@@ -32,12 +35,21 @@ Electron에는 크로미움의 sandbox 옵션과 같은 여러 보안 옵션이 
      - Electron 20.0 이후로 기본적으로 모든 Renderer Process에서 활성화되어 있습니다.
 
 ### Electron Structure Diagram
-Electron의 동작 구조를 다이어그램으로 정리하면 아래와 같습니다.
+
+Electron은 다음과 같은 과정을 거쳐서 작동합니다.
+1. 메인프로세스에서 각 개발자가 설정한 BrowserWindows에 설정한 Option에 맞춰 렌더러 프로세스를 시작합니다.
+2. 렌더러 프로세스에서는 IPC를 통해 메인프로세스와 정보를 가져오고 Chromium을 통하여 사용자에게 보여지는 Renderer를 구성합니다.
+4. 사용자와 렌더러는 계속해서 상호작용을 하고 렌더러 프로세스는 계속해서 데이터를 IPC를 통하여 가져오거나 Web API를 통하여 외부에서 정보를 가져옵니다.
+5. 이때 메인프로세스는 렌더러 프로세스에서 요청한 정보를 컴퓨터 내부의 자원을 가져와야 하는 경우도 있습니다. 이때 NodeAPI를 사용하여 컴퓨터 자원을 가져옵니다.
+
+Electron의 위의 동작을 다이어그램으로 정리하면 아래와 같습니다.
+
 <img src="https://user-images.githubusercontent.com/66944342/207488500-2a0618b8-5f0d-4af4-bf43-3019ccd65555.png" width=80%>
 
 다이어그램을 통해 옵션에 따른 Main Process와 Renderer Process의 상호작용을 한눈에 볼 수 있습니다. 
 
 ## STRIDE 위협 모델링
+
 | 위협 종류                 | 공격으로 인한 결과  |     
 | ------------------       | ------------------------- | 
 Spoofing                   |     거짓된 권한을 이용하여 시스템의 접근 권한을 획득
@@ -66,6 +78,7 @@ NodeJS API  | Electron의 낮은 버전으로 인하여 낮은 버전의 NodeJS 
 || 낮은 NodeJS Module을 설치하여 사용할 경우 취약점 발생 | E |
 
 ## Attack Tree
+
 위의 STRIDE 위협 모델링을 통해 정리한 위협들을 공격 백터로 분류하여 최종적인 Attack Tree를 그리면 아래와 같습니다.
 <img src="https://user-images.githubusercontent.com/66944342/207555988-78214490-fb2c-4b2c-a3ec-54b15fabc7c3.png" width=80%>
 
