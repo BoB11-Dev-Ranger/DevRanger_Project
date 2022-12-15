@@ -271,12 +271,12 @@ select startFunc.getArgument(0), "to" , scheme
 
 Electron 보안 옵션 중, `nodeIntegration` 이 비활성화 되어있어서 node API 를 사용할 수 없으며, `sandbox` 또한 걸려있을 경우 위에 서술한 분석방법은 대부분은 효용이 없는 방법이 될 것입니다.
 
-그러나 이런 경우에 앱이 낮은 버전의 Electron 프레임워크를 사용하여, 그에 종속되는 Chrome 엔진 버전 또한 낮을 경우 기존에 공개된 1-day Chrome Exploitation 을 이용하거나 개량하여 Exploit 이 가능할 수 있습니다.
+그러나 이런 경우에 앱이 낮은 버전의 Electron 프레임워크를 사용하여, 그에 종속되는 Chromium 엔진 버전 또한 낮을 경우 기존에 공개된 1-day Chrome Exploitation 을 이용하거나 개량하여 Exploit 이 가능할 수 있습니다.
 
 ### 2.1. 필요조건
 
-우선 현재 Exploit 하고자하는 Electron 내의 Chrome 엔진 버전에 대한 취약점이 존재해야합니다.
-해당 취약점에 대해서는 직접 디버깅하거나 퍼징하여 찾거나, 기존에 존재하는 Chrome Exploitation 또는 [Chromium Bug](https://bugs.chromium.org/p/chromium/issues/list) 를 개량하는 방식 등이 존재합니다.
+우선 현재 Exploit 하고자하는 Electron 내의 Chromium 엔진 버전에 대한 취약점이 존재해야합니다.
+해당 취약점에 대해서는 직접 디버깅하거나 퍼징하여 찾거나, 기존에 존재하는 Chromium Exploitation 또는 [Chromium Bug](https://bugs.chromium.org/p/chromium/issues/list) 를 개량하는 방식 등이 존재합니다.
 
 각 OS 별 Electron 디버깅 가능환경은 다음과 같습니다.
 
@@ -320,7 +320,7 @@ Chrome Exploitation 을 이용한 공격 루트에는 [1.2.](#12-electron-보안
 
 ![](https://i.imgur.com/soz8108.png)
 
-Chrome Exploitation 을 통해 **Fake Object** 를 생성하여 앱에 존재하는 `window` 객체의 주소를 leak 할 수 있는 경우, 디버깅을 통해 각 보안옵션에 대한 offset 을 구해낼 수 있습니다. 그 후에는 offset 을 이용하여 옵션들을 조작하면 성공적으로 Exploit 을 진행할 수 있습니다.
+Chromium Exploitation 을 통해 **Fake Object** 를 생성하여 앱에 존재하는 `window` 객체의 주소를 leak 할 수 있는 경우, 디버깅을 통해 각 보안옵션에 대한 offset 을 구해낼 수 있습니다. 그 후에는 offset 을 이용하여 옵션들을 조작하면 성공적으로 Exploit 을 진행할 수 있습니다.
 
 단, Electron 버전 별로 offset 이 굉장히 달라지기 때문에 [2.2. 환경구축](#22-환경구축) 의 환경을 기반으로한 디버깅이 필수적입니다.
 
