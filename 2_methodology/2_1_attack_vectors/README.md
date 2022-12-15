@@ -51,6 +51,7 @@ Electron의 위의 동작을 다이어그램으로 정리하면 아래와 같습
 ## STRIDE 위협 모델링
 
 저희는 Electron에서 공격 벡터를 MainProcess, Renderer Process, Web Backend부분으로 나누어 취약점이 발생할 수 있는 부분을 다다음 표에 적혀있는 것처럼 정리하였습니다.
+
 STRIDE는 다음과 같습니다.
 
 | 위협 종류                 | 공격으로 인한 결과  |     
