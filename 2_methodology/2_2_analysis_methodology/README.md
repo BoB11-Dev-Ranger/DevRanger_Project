@@ -297,7 +297,7 @@ Electron 보안 옵션 중, `nodeIntegration` 이 비활성화 되어있어서 n
 ### 2.1. 필요조건
 
 우선 현재 Exploit 하고자하는 Electron 내의 Chrome 엔진 버전에 대한 취약점이 존재해야합니다.
-해당 취약점에 대해서는 직접 디버깅하거나 퍼징하여 찾거나, 기존에 존재하는 Chrome Exploitation 또는 [Chromium Bug](https://bugs.chromium.org/p/chromium/issues/list) 를 개량하는 방식 등이 존재합니다.
+해당 취약점에 대해서는 직접 디버깅하거나 퍼징하여 찾거나, 기존에 존재하는 Chromium Exploitation 또는 [Chromium Bug](https://bugs.chromium.org/p/chromium/issues/list) 를 개량하는 방식 등이 존재합니다.
 
 각 OS 별 Electron 디버깅 가능환경은 다음과 같습니다.
 
