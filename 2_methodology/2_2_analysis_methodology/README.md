@@ -218,6 +218,27 @@ Visual Studio Code 의 경우에는 사용자와의 상호작용에서 자유로
 
 ![](https://i.imgur.com/1p8zuN0.png)
 
+만약 사용가능한 `require` 계열의 함수가 존재하지 않는다면, 강제로 불러올 수 있는 방법이 존재합니다.
+
+`Sandbox = true, contextIsolation = false` 일 때, electron 내장 함수를 사용하는 사용자 정의 함수 또는 어떤 경로로든지 electron 내장 함수를 사용을 하게 되면, 그 때부터 `window` 객체에 `__webpack_require__` 라는 특수한 `require` 함수가 세팅되게 됩니다.
+
+저희가 분석한 특정 벤더에는 아래와 같이 electron 내장 함수를 부를 수 있는 특수 케이스가 존재했습니다.
+
+```javascript
+top.__electronApi.copyText(""); // __webpack_require__ 세팅됨
+/*
+  ... etc
+*/
+top.window
+  .__webpack_require__("module")
+  ._load("child_process")
+  .execSync("/System/Applications/Calculator.app/Contents/MacOS/Calculator");
+```
+
+`copyText` 라는 함수를 호출하게 되면, `__webpack_require__` 함수가 생기게 되고 결론적으로는 원격 코드 실행을 일으킬 수 있다는 것입니다.
+
+그 외에도, `require` 가 제한된 iframe 에서 `postMessage` 함수로 top 에 있는 `require` 을 이용하는 방법 등의 다양한 경로가 존재합니다.
+
 ### 1.5. 딥링크 핸들러
 
 Electron 앱의 경우는 어떠한 OS나 플랫폼에도 구애받지 않기위한 크로스플랫폼이라는 특성을 갖고 있습니다.
@@ -338,4 +359,28 @@ Dev Ranger 팀의 경우에는 V8 에 자체 내장되어있는 [WASM](https://c
 
 ## 3. 서드파티모듈
 
+서드파티모듈은 Visual Studio Code 의 확장프로그램, Figma 에서 사용할 수 있는 플러그인 등과 같이 앱에서 확장하여 사용할 수 있는 툴을 의미 합니다.
+
+이러한 툴들 자체에 취약점이 존재하거나 툴이 동작하는 iframe, 즉 Renderer 프로세스에 대한 보안 처리가 미흡하게 되면 툴이 실행되고 있는 앱의 보안설정이 잘 되있더라고 하여도 취약점을 발생시킬 수 있습니다.
+
+Dev Ranger 팀에서 발굴한 Visual Studio Code 의 Git lens 취약점을 예로 들어보면 다음과 같습니다.
+
+[연구페이지](https://blog.sonarsource.com/securing-developer-tools-git-integrations/) 를 보면, git의 config 파일에 잘못된 커맨드를 실행하도록 입력해놓으면 git 관련 명령들을 수행할 때마다 shell 명령이 실행되도록 유도할 수 있었습니다.
+
+이러한 취약점에 대한 별다른 조치없이 git lens 확장프로그램은 잘못된 config 파일에 설정되어있는 커맨드를 실행하는 상황이었습니다.
+
+더하여, 확장프로그램 모두를 실행할 수 없도록 제한하는 Visual Studio Code 제한모드에서 조차도 git lens 는 실행이 가능하였기에 위에서 설명한 딥링크 취약점과 연계하여 악성 git repository 를 연결시킨 후, 원격 코드 실행까지 실행시키는 취약점을 발굴할 수 있었습니다. 이는 최종적으로 [CVE-2022-44110](https://cve.report/CVE-2022-44110) 의 CVE Number 를 받을 수 있었습니다.
+
+이처럼 앱 자체 말고도 서드파티모듈을 통한 취약점 발생 루트도 있음을 인지하여야 합니다.
+
 ## 4. CodeQL
+
+[CodeQL](https://github.com/github/codeql) 은 C/C++ 또는 자바스크립트 등으로 작성한 코드에 대해 사전에 정의한 취약점 패턴이 감지가 되는지 AST 파싱 방식을 이용하여 취약점 위험을 탐지하는 프로그램입니다.
+
+Dev Ranger 팀은 프로젝트가 어느정도 진전이 되고, 다양한 취약점들이 발굴 된 시점에 수많은 벤더에 대해 취약점 연구를 효율적으로 하기위해 CodeQL 을 사용하였습니다.
+
+실제로 CodeQL 은 일일히 모든 파일에 코드 패턴을 대조하는 단순 비교작업과는 다르게 AST 토큰을 통해 작업이 이루어지다보니 굉장히 신속하고 정확한 코드 위협 탐지에 효과적이었습니다.
+
+프로젝트 후반부에는 저희가 제작한 CodeQL 쿼리들이 Beekeeper-Studio, Obsidian 등의 취약점을 식별하는데에 큰 기여를 할 수 있었습니다.
+
+사용한 쿼리 예제는 [CodeQL 쿼리](../Queries/) 에 정리하였습니다.
