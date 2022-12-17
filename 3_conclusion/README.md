@@ -17,9 +17,9 @@
 - Renderer Process에서 발생할수 있는 취약점
 - 외부와 통신할때 사용할수 있는 API를 이용한 취약점
 
-| Electron Application Development Security CheckList                                                                    |         |        |                    |
+| Electron Application Development Security CheckList                                                                    |         |        |                    |     |
 | ---------------------------------------------------------------------------------------------------------------------- | :-----: | :----: | :----------------: | --- |
-| **Main Process**                                                                                                       | **Yes** | **No** | **Not Applicable** |
+| **Main Process**                                                                                                       | **Yes** | **No** | **Not Applicable** | 
 | IPC에서 처리하는 데이터는 안전한가?                                                                                    |         |        |                    |
 | DeepLink를 통해 가져온 데이터의 처리는 안전한가?                                                                       |         |        |                    |
 | OpenExternal과 같은 악용될수 있는 함수를 사용하는 코드에서의 필터링과 같은 작업은 유효한가?                            |         |        |                    |     |
