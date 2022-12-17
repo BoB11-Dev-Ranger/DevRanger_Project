@@ -18,7 +18,7 @@ IDE에서 발생하는 RCE 취약점은 대부분 파일 렌더링에서 발생�
 ### 1.1-파일-렌더링에서-발생하는-XSS
 파일 렌더링에서 발생하는 XSS는 주로 md 파일이나 html 파일등을 렌더링하여 사용자에게 보여주는 기능을 가진 IDE에서 발생합니다. 파일 내에 데이터를 제대로 처리하지 않은 상태로 html로 변환하여 렌더링하면 해당 파일 내에 존재하는 임의의 자바스크립트 코드가 실행되는 것입니다.
 
-<img width="559" alt="image" src="https://user-images.githubusercontent.com/63496362/208237359-dc2820f1-0437-4e88-b807-6249358e4f8c.png">
+<img width="800" alt="image" src="https://user-images.githubusercontent.com/63496362/208237359-dc2820f1-0437-4e88-b807-6249358e4f8c.png">
 
 따라서 공격자는 정상적인 소스 파일에 RCE 페이로드가 삽입된 md 파일을 포함하여 배포하는 것으로, 해당 파일을 다운로드하고 취약점이 존재하는 IDE로 오픈하는 피해자의 시스템에 침투할 수 있습니다. 이때 피해자가 삽입된 악성 스크립트를 사전에 발견하고 다운로드를 중지하거나, 파일을 오픈한 이후 발견하여 시스템 침투에 대응하는 것을 막기 위해 다음과 같은 트릭을 이용할 수도 있습니다.
 
@@ -31,7 +31,7 @@ IDE에서 발생하는 RCE 취약점은 대부분 파일 렌더링에서 발생�
 
 하지만 실제로 텍스트 파일로 확인할 경우 다음과 같이 은닉된 자바스크립트가 존재합니다. 해당 텍스트가 포함된 md 파일을 취약점이 존재하는 IDE에서 오픈할 경우 실제로 해당 스크립트가 실행됩니다. 만약 RCE 페이로드가 삽입되었다면, 피해자는 자신이 오픈한 md 파일에 악성 스크립트가 삽입되었다는 사실을 알지 못한채로 공격자에게 시스템 침투를 허용할 것 입니다. 
 
-<img width="700" alt="image" src="https://user-images.githubusercontent.com/63496362/207413812-377e4564-6733-4be7-8d5e-cdc6daf607c9.png">
+<img width="800" alt="image" src="https://user-images.githubusercontent.com/63496362/207413812-377e4564-6733-4be7-8d5e-cdc6daf607c9.png">
 
 특히 github에서는 `<img src="data:image/jpeg;base64,">` 다음과 같이 src에 data:image가 들어갈 경우 엑스박스를 생성하지 않습니다. 따라서 피해자는 github를 통한 파일 미리보기로 md 파일에 악성 스크립트가 삽입되어 있다는 사실을 파악할 수 없습니다.
 
@@ -65,6 +65,6 @@ IDE에서 발생하는 RCE 취약점은 대부분 파일 렌더링에서 발생�
 
 만약 RCE를 트리거하기 위해 사용자의 상호작용이 필요할 경우, 공격자는 악성 스크립트 뿐만 아니라 HTML, CSS 코드를 삽입하여 사용자의 클릭을 유도할 수 있습니다.
 
-<img width="501" alt="image" src="https://user-images.githubusercontent.com/63496362/208243819-2d450f2a-6afd-4669-b41a-f5fbba9f70ab.png">
+<img width="800" alt="image" src="https://user-images.githubusercontent.com/63496362/208243819-2d450f2a-6afd-4669-b41a-f5fbba9f70ab.png">
 
 특히 다음과 같이 대상 협업툴의 에러 페이지를 모방할 경우 피해자는 해당 문서에 악성 스크립트가 존재한다는 사실을 알아차리기 더욱 어렵습니다.
