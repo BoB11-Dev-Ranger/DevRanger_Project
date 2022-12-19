@@ -321,6 +321,8 @@ Electron 보안 옵션 중, `nodeIntegration` 이 비활성화 되어있어서 n
 
 <img src="https://i.imgur.com/qEYUOIE.png" style="width:40%"></img>
 
+[자세한 환경구축 방법](https://github.com/BoB11-Dev-Ranger/DevRanger_Project/blob/main/2_methodology/2_2_analysis_methodology/electron_environment.md)
+
 ### 2.3. 공격 및 분석방식
 
 Chrome Exploitation 을 이용한 공격 루트에는 [1.2.](#12-electron-보안옵션)에서 설명한 옵션들이 다 활성화되어있다는 가정하에, `Sandbox` 옵션에 따라 크게 두 가지로 구분할 수 있습니다.
@@ -346,6 +348,8 @@ Chrome Exploitation 을 통해 **Fake Object** 를 생성하여 앱에 존재하
 단, Electron 버전 별로 offset 이 굉장히 달라지기 때문에 [2.2. 환경구축](#22-환경구축) 의 환경을 기반으로한 디버깅이 필수적입니다.
 
 그리고 보안옵션 중에서도 `ContextIsolation` 을 비활성화 시키는 경우에는 [1. 코드 분석](#1-코드-탐색) 과 동반하여 **Prototype Pollution** 공격 또한 가능함을 발견할 수 있었습니다.
+
+[각 보안 옵션의 offset을 구하고 Electron 디버깅하는 방법](https://github.com/BoB11-Dev-Ranger/DevRanger_Project/blob/main/2_methodology/2_2_analysis_methodology/electron_debugging.md)
 
 #### 2.3.2. `Sandbox` 보안옵션이 비활성화 되어있을 때
 
