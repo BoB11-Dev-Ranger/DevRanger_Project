@@ -76,7 +76,7 @@
 | Beekeeper-Studio   | 원격코드실행              | Windows, Mac, Linux | [CVE-2022-43143](https://cve.report/CVE-2022-43143) |
 | Left               | 원격코드실행 1            | Windows, Mac, Linux | [CVE-2022-44110](https://cve.report/CVE-2022-44110) |
 | Left               | 원격코드실행 2            | Windows, Mac, Linux | 제보 진행중                                         |
-| Mermaid            | 민감정보누출              | Windows, Mac, Linux | 제보 진행중                                         |
+| Mermaid            | 민감정보누출              | Windows, Mac, Linux | **패치완료**                                         |
 | Figma              | 서비스 거부               | Windows, Mac        | 제보 진행중                                         |
 | Microsoft Teams    | 서비스 거부               | Windows, Mac        | 제보 진행중                                         |
 | Visual Studio Code | 서비스 거부               | Windows, Mac, Linux | 제보 진행중                                         |
