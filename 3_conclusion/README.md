@@ -78,7 +78,7 @@
 | Left               | 원격코드실행 2            | Windows, Mac, Linux | [CVE-2022-45558](https://cve.report/CVE-2022-45558)|
 | Mermaid            | 민감정보누출              | Windows, Mac, Linux | **패치완료**                                         |
 | Figma              | 서비스 거부               | Windows, Mac        | 제보 진행중                                         |
-| Microsoft Teams    | 서비스 거부               | Windows, Mac        | 제보 진행중                                         |
+| Microsoft Teams    | 서비스 거부               | Windows, Mac        | [CVE-2022-47640](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2022-47640)                                    |
 | Visual Studio Code | 서비스 거부               | Windows, Mac, Linux | 제보 진행중                                         |
 ### 3.2. 취약점 제보 결과 Eng Ver
 | Vendor               | Vulnerability                    | Affected Platform         | Result                                           |
