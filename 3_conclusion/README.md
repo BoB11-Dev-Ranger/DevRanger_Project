@@ -84,18 +84,18 @@
 | Vendor               | Vulnerability                    | Affected Platform         | Result                                           |
 | ------------------ | ------------------------- | ------------------- | --------------------------------------------------- |
 | Visual Studio Code | Remote Code Execution              | Mac                 | [CVE-2022-44110](https://cve.report/CVE-2022-44110) |
-| Notion             | Remote Code Execution            | Windows             | ** ≈$2,000**                              |
-| Notion             | Remote Code Execution            | Windows, Mac        | 제보 진행중                                         |
-| Notion             | Sensitive Data Exposure | Windows, Mac        | 제보 진행중                                         |
-| JANDI              | Remote Code Execution            | Windows, Mac        | ** ≈$1,000**                              |
-| JANDI              | Remote Code Execution            | Windows, Mac        | ** ≈$1,000**                              |
-| JANDI              | Remote Code Execution           | Windows, Mac        | ** ≈$1,000**                              |
+| Notion             | Remote Code Execution            | Windows             |  ≈ $2,000                              |
+| Notion             | Remote Code Execution            | Windows, Mac        |  Patched                                         |
+| Notion             | Sensitive Data Exposure | Windows, Mac        |          ≈ $200                            |
+| JANDI              | Remote Code Execution            | Windows, Mac        |  ≈$1,000                              |
+| JANDI              | Remote Code Execution            | Windows, Mac        | ≈$1,000                              |
+| JANDI              | Remote Code Execution           | Windows, Mac        | ≈$1,000                              |
 | Obsidian           | Local File Disclosure            | Windows, Mac, Linux | [CVE-2022-44791](https://cve.report/CVE-2022-44791) |
-| RunJS              | Remote Code Execution              | Windows, Mac, Linux | **Patched**                                        |
+| RunJS              | Remote Code Execution              | Windows, Mac, Linux | Patched                                        |
 | Beekeeper-Studio   | Remote Code Execution              | Windows, Mac, Linux | [CVE-2022-43143](https://cve.report/CVE-2022-43143) |
 | Left               | Remote Code Execution            | Windows, Mac, Linux | [CVE-2022-44110](https://cve.report/CVE-2022-44110) |
-| Left               | Remote Code Execution            | Windows, Mac, Linux | 제보 진행중                                         |
-| Mermaid            | Sensitive Data Exposure              | Windows, Mac, Linux | **Patched**                                         |
-| Figma              | Denial Of Service               | Windows, Mac        | 제보 진행중                                         |
+| Left               | Remote Code Execution            | Windows, Mac, Linux | Submit Report                                         |
+| Mermaid            | Sensitive Data Exposure              | Windows, Mac, Linux | Patched                                         |
+| Figma              | Denial Of Service               | Windows, Mac        | Submit Report                                         |
 | Microsoft Teams    | Denial Of Service               | Windows, Mac        | [CVE-2022-47640](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2022-47640)                                        |
-| Visual Studio Code | Denial Of Service               | Windows, Mac, Linux | 제보 진행중                                         |
+| Visual Studio Code | Denial Of Service               | Windows, Mac, Linux | Submit Report                                         |
