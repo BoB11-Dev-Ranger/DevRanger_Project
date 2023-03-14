@@ -96,6 +96,7 @@
 | Left               | Remote Code Execution            | Windows, Mac, Linux | [CVE-2022-44110](https://cve.report/CVE-2022-44110) |
 | Left               | Remote Code Execution            | Windows, Mac, Linux | [CVE-2022-45558](https://cve.report/CVE-2022-45558)   |
 | Mermaid            | Sensitive Data Exposure              | Windows, Mac, Linux | Patched                                         |
+| Typora            | Sensitive Data Exposure              | Windows, Mac, Linux | Patched                                         |
 | Figma              | Denial Of Service               | Windows, Mac        | Submit Report                                         |
 | Microsoft Teams    | Denial Of Service               | Windows, Mac        | [CVE-2022-47640](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2022-47640)                                        |
 | Visual Studio Code | Denial Of Service               | Windows, Mac, Linux | Submit Report                                         |
