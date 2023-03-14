@@ -84,9 +84,9 @@
 | Vendor               | Vulnerability                    | Affected Platform         | Result                                           |
 | ------------------ | ------------------------- | ------------------- | --------------------------------------------------- |
 | Visual Studio Code | Remote Code Execution              | Mac                 | [CVE-2022-44110](https://cve.report/CVE-2022-44110) |
-| Notion             | Remote Code Execution            | Windows             |  ≈ $2,000                              |
+| Notion             | Remote Code Execution            | Windows             |  ≈$2,000                              |
 | Notion             | Remote Code Execution            | Windows, Mac        |  Patched                                         |
-| Notion             | Sensitive Data Exposure | Windows, Mac        |          ≈ $200                            |
+| Notion             | Sensitive Data Exposure | Windows, Mac        |          ≈$200                            |
 | JANDI              | Remote Code Execution            | Windows, Mac        |  ≈$1,000                              |
 | JANDI              | Remote Code Execution            | Windows, Mac        | ≈$1,000                              |
 | JANDI              | Remote Code Execution           | Windows, Mac        | ≈$1,000                              |
@@ -94,7 +94,7 @@
 | RunJS              | Remote Code Execution              | Windows, Mac, Linux | Patched                                        |
 | Beekeeper-Studio   | Remote Code Execution              | Windows, Mac, Linux | [CVE-2022-43143](https://cve.report/CVE-2022-43143) |
 | Left               | Remote Code Execution            | Windows, Mac, Linux | [CVE-2022-44110](https://cve.report/CVE-2022-44110) |
-| Left               | Remote Code Execution            | Windows, Mac, Linux | Submit Report                                         |
+| Left               | Remote Code Execution            | Windows, Mac, Linux | [CVE-2022-45558](https://cve.report/CVE-2022-45558)   |
 | Mermaid            | Sensitive Data Exposure              | Windows, Mac, Linux | Patched                                         |
 | Figma              | Denial Of Service               | Windows, Mac        | Submit Report                                         |
 | Microsoft Teams    | Denial Of Service               | Windows, Mac        | [CVE-2022-47640](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2022-47640)                                        |
